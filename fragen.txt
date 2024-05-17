@@ -1,5 +1,7 @@
 a) TCP sorgt für eine vollständige Übertragung, UDP kann Pakete "verlieren", da keine Überprüfung
-b)
+b) TCP/TCP: Bind Exception, da ein Port nur von einem gleichen Protokoll  Prozess bdient werden kann
+TCP/UDP: keine Exception, geht da 2 verschiedene Protokolle
+UDP/UDP: wie TCP/TCP
 c) eine UknknownHostException
 d) eine ConnectException
 e) durch eine höhere Verzögerung wird das Netzwerk entlastet, wodurch es zu weniger Fehlern kommt
