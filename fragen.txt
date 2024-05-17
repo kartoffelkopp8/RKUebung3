@@ -1,0 +1,6 @@
+a) TCP sorgt für eine vollständige Übertragung, UDP kann Pakete "verlieren", da keine Überprüfung
+b)
+c) eine UknknownHostException
+d) eine ConnectException
+e) durch eine höhere Verzögerung wird das Netzwerk entlastet, wodurch es zu weniger Fehlern kommt
+optimal währe z.B eine adaptive Wartezeit, je nach Auslastung
