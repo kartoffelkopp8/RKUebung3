@@ -4,20 +4,37 @@ import java.net.DatagramSocket;
 import java.nio.ByteBuffer;
 
 public class UDPServer {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         final int port = 2345;
-        try(DatagramSocket serverSocket = new DatagramSocket(port)) {
-            System.out.println("Server listening on port: " + port + "...");
+        System.out.println("Listening on port " + port + "...");
 
-            while (true) {
-                byte[] data = new byte[8];
+        while (true) {
+            try (DatagramSocket socket = new DatagramSocket(port)) {
+                // Read and check number sequence
+                int expected = 0;
+                byte[] data = new byte[4];
                 DatagramPacket rcvPacket = new DatagramPacket(data, data.length);
-                serverSocket.receive(rcvPacket);
-                int number = ByteBuffer.wrap(rcvPacket.getData()).getInt();
-                System.out.println(number);
+                while (true) {
+                    int received;
+                    socket.receive(rcvPacket); // IOException here has no special meaning like with TCP, so it doesn't need to be handled seperately
+                    received = ByteBuffer.wrap(rcvPacket.getData()).getInt();
+
+                    if (Math.abs(expected - received) > received / 2) {
+                        expected = received;
+                        System.out.println("New sequence started at " + received);
+                    }
+
+                    if (received == expected) {
+                        expected++;
+                    } else {
+                        System.out.println("Expected: " + expected + ", Received: " + received);
+                        expected = received + 1;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                break;
             }
-        }catch(Exception e){
-            e.printStackTrace();
         }
     }
 }

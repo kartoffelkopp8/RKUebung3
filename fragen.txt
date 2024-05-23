@@ -1,8 +1,9 @@
-a) TCP sorgt für eine vollständige Übertragung, UDP kann Pakete "verlieren", da keine Überprüfung
-b) TCP/TCP: Bind Exception, da ein Port nur von einem gleichen Protokoll  Prozess bdient werden kann
-TCP/UDP: keine Exception, geht da 2 verschiedene Protokolle
-UDP/UDP: wie TCP/TCP
-c) eine UknknownHostException
-d) eine ConnectException
-e) durch eine höhere Verzögerung wird das Netzwerk entlastet, wodurch es zu weniger Fehlern kommt
+a) TCP garantiert Vollständigkeit und Reihenfolge der Übertragung, UDP kann Pakete "verlieren" oder sie können in falscher Reihenfolge ankommen
+b)
+	- TCP/TCP: Bind Exception. Jede Port/Protokoll Kombination kann nur einem Prozess gleichzeitig zugewiesen sein
+	  TCP/UDP: keine Exception, geht da 2 verschiedene Protokolle
+	  UDP/UDP: wie TCP/TCP
+	- Eine UnknownHostException
+	- Eine ConnectException
+c) Durch eine höhere Verzögerung wird das Netzwerk entlastet, wodurch es zu weniger Fehlern kommt
 optimal währe z.B eine adaptive Wartezeit, je nach Auslastung
