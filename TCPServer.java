@@ -5,34 +5,34 @@ import java.net.Socket;
 
 public class TCPServer {
     public static void main(String[] args) throws IOException {
-        final int portNumber = 2345;
-        ServerSocket inSocket = new ServerSocket(portNumber);
-        System.out.println("Server listening on port: " + portNumber + "...");
+        final int port = 2345;
+        ServerSocket serverSocket = new ServerSocket(port);
+        System.out.println("Listening on port " + port + "...");
 
         while (true) {
-            try {
-                Socket acceptSocket = inSocket.accept();
-                DataInputStream dataIn = new DataInputStream(acceptSocket.getInputStream());
+            try (Socket socket = serverSocket.accept()) {
+                DataInputStream dataIn = new DataInputStream(socket.getInputStream());
+                System.out.println("Connection accepted");
+
+                // Read and check number sequence
+                int expected = 0;
                 while (true) {
-                    int expected = 0;
+                    int received;
                     try {
-                        int received = dataIn.readInt();
-                        if(received == expected){
-                            System.out.println(received);
-                            expected++;
-                        }else {
-                            System.out.println("Missing Numbers: ");
-                            for (int i = expected; i < received; i++){
-                                System.out.println(i);
-                            }
-                        }
-                    } catch (IOException b) {
+                        received = dataIn.readInt();
+                    } catch (IOException e) {
                         System.out.println("Connection closed by Client");
-                        acceptSocket.close();
                         break;
                     }
+
+                    if (received == expected) {
+                        expected++;
+                    } else {
+                        System.out.println("Expected: " + expected + ", Received: " + received);
+                        expected = received + 1;
+                    }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 break;
             }
