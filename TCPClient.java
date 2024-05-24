@@ -1,5 +1,4 @@
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.net.Socket;
 
 public class TCPClient {
@@ -23,7 +22,7 @@ public class TCPClient {
         // Send data
         try (Socket socket = new Socket(hostname, port)) {
             DataOutputStream dataOut = new DataOutputStream(socket.getOutputStream());
-            for (int i = 0; i <= 1000000; i++) {
+            for (int i = 0; i <= 1000000; i++) { // +1, um den Verbindungsabbrich vom Server mitzubekommen
                 dataOut.writeInt(i);
                 dataOut.flush();
             }

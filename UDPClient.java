@@ -1,11 +1,11 @@
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 
 public class UDPClient {
-    public static void main(String[] args) throws java.net.UnknownHostException {
+    public static void main(String[] args) throws UnknownHostException {
         if (args.length < 2) {
             System.out.println("Usage: java TCPClient <hostname_or_address> <port>");
             return;
@@ -14,7 +14,7 @@ public class UDPClient {
         // Parse arguments
         String hostname;
         int port;
-        hostname = args[1];
+        hostname = args[0];
         try {
             port = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
@@ -25,9 +25,11 @@ public class UDPClient {
         // Send data
         InetAddress address = InetAddress.getByName(hostname);
         try (DatagramSocket socket = new DatagramSocket()) {
+            ByteBuffer buffer = ByteBuffer.allocate(4);
             for (int i = 0; i <= 1000000; i++) {
+                buffer.putInt(0, i);
                 DatagramPacket packet = new DatagramPacket(
-                    ByteBuffer.allocate(4).putInt(i).array(), 4,
+                    buffer.array(), 4,
                     address, port
                 );
                 socket.send(packet);

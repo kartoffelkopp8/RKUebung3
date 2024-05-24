@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.nio.ByteBuffer;
@@ -26,6 +25,7 @@ public class UDPServer {
 
                     if (received == expected) {
                         expected++;
+                        //System.out.println(received);
                     } else {
                         System.out.println("Expected: " + expected + ", Received: " + received);
                         expected = received + 1;

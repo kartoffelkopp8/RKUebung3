@@ -21,15 +21,22 @@ public class TCPServer {
                     try {
                         received = dataIn.readInt();
                     } catch (IOException e) {
-                        System.out.println("Connection closed by Client");
+                        System.out.println("Connection closed unexpectedly");
                         break;
                     }
 
                     if (received == expected) {
                         expected++;
+                        //System.out.println(received);
                     } else {
                         System.out.println("Expected: " + expected + ", Received: " + received);
                         expected = received + 1;
+                    }
+
+                    if (received == 1000000) {
+                        socket.close();
+                        System.out.println("Connection closed by server");
+                        break;
                     }
                 }
             } catch (Exception e) {
@@ -37,5 +44,7 @@ public class TCPServer {
                 break;
             }
         }
+
+        serverSocket.close();
     }
 }
